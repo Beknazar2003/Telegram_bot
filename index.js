@@ -6,8 +6,8 @@ const path = require('path')
 const bot = new Telegraf(BOT_TOKEN)
 
 bot.start((ctx) => ctx.reply('Привет! Напиши мне название города, а пришлю тебе Погоду в этом городе'))
-bot.news((ctx) => ctx.reply('Ещё не готово! Скоро...'))
-bot.time((ctx) => ctx.reply('Ещё не готово! Скоро...'))
+bot.command('news', (ctx) => ctx.reply('Ещё не готово! Скоро...'))
+bot.command('time', (ctx) => ctx.reply('Ещё не готово! Скоро...'))
 bot.help((ctx) => {
     ctx.reply('Чё не можешь разобраться 😂 Пашёл нахуй')
     ctx.replyWithSticker('CAACAgIAAxkBAAECF9NgWcqqP49ls5bUKLL_sewYbzY3tgACDAMAArVx2gZOgc1a7F4a-x4E')
