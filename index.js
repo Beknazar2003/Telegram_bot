@@ -6,7 +6,28 @@ const path = require('path')
 const bot = new Telegraf(BOT_TOKEN)
 
 bot.start((ctx) => ctx.reply('Привет! Напиши мне название города, а пришлю тебе Погоду в этом городе'))
-bot.command('news', (ctx) => ctx.reply('Ещё не готово! Скоро...'))
+bot.command('news', (ctx) => {
+    const rp = require('request-promise')
+    const $ = require('cheerio')
+
+    const URL = 'https://24.kg/'
+    const news = []
+
+    rp(URL)
+    .then(function(html){
+        //success!
+        
+        news.push({
+        new: $('.title > a > span', html).first().text().slice(),
+        time: $('.time', html).first().text().slice()
+        })
+        ctx.reply(news[0].time + ' ' + news[0].new)
+
+    })
+    .catch(function(err){
+        //handle error
+    });
+})
 bot.command('time', (ctx) => ctx.reply('Ещё не готово! Скоро...'))
 bot.help((ctx) => {
     ctx.reply('Чё не можешь разобраться 😂 Пашёл нахуй')
