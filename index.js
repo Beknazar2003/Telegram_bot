@@ -2,6 +2,7 @@ const { Telegraf } = require('telegraf')
 const {BOT_TOKEN} = require('./config')
 const weather = require('weather-js')
 const path = require('path')
+const { time } = require('console')
 
 const bot = new Telegraf(BOT_TOKEN)
 
@@ -28,7 +29,10 @@ bot.command('news', (ctx) => {
         //handle error
     });
 })
-bot.command('time', (ctx) => ctx.reply('Ещё не готово! Скоро...'))
+bot.command('time', (ctx) => {
+    const now = new Date()
+    ctx.reply(now.getHours() + ':' + now.getMinutes())
+})
 bot.help((ctx) => {
     ctx.reply('Чё не можешь разобраться 😂 Пашёл нахуй')
     ctx.replyWithSticker('CAACAgIAAxkBAAECF9NgWcqqP49ls5bUKLL_sewYbzY3tgACDAMAArVx2gZOgc1a7F4a-x4E')
