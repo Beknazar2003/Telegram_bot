@@ -11,7 +11,7 @@ bot.command('news', (ctx) => {
     const rp = require('request-promise')
     const $ = require('cheerio')
 
-    const URL = 'https://24.kg/'
+    const URL = 'https://24.kg'
     const news = []
 
     rp(URL)
@@ -20,10 +20,10 @@ bot.command('news', (ctx) => {
         
         news.push({
         new: $('.title > a > span', html).first().text().slice(),
-        time: $('.time', html).first().text().slice()
+        time: $('.time', html).first().text().slice(),
+        href: URL + $('.one > .title > a' , html).attr('href')
         })
-        ctx.reply(news[0].time + ' ' + news[0].new)
-
+        ctx.reply(news[0].time + ' ' + news[0].new + ' ' + news[0].href)
     })
     .catch(function(err){
         //handle error
