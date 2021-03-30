@@ -1,8 +1,6 @@
 const { Telegraf } = require('telegraf')
 const {BOT_TOKEN} = require('./config')
 const weather = require('weather-js')
-const path = require('path')
-const { time } = require('console')
 
 const bot = new Telegraf(BOT_TOKEN)
 
@@ -52,13 +50,27 @@ bot.on('message', (ctx) => {
           ctx.reply('Приветсвую, чё надо?')
         break
         default:
-            weather.find({search: ctx.update.message.text, degreeType: 'C'}, (err, result) => {
+            weather.find({search: ctx.update.message.text, degreeType: 'C'}, async (err, result) => {
                 if(err) console.log(err)
-        
-                if (result.length == 0){
-                    ctx.reply('Ты чё уебан такого города нет??')
+                console.log(result)
+                if (result[0]){
+                    await ctx.reply('В городе ' + result[0].location.name + ' температура: ' + result[0].current.temperature)
+                    await ctx.reply('Погода: ' + result[0].current.skytext)
+                    if(result[0].current.temperature <= 0){
+                        await ctx.reply('Ебать дубео! Оденься как танк. И не забудь шапку(не будь далбаёбом)')
+                    }
+                    if(result[0].current.temperature <= 14 && result[0].current.temperature >= 1){
+                        await ctx.reply('Прохладненько! Оденься потеплее.')
+                    }
+                    if(result[0].current.temperature <= 20 && result[0].current.temperature >= 15){
+                        await tx.reply('Норм! Можно сказать идеальная погода! Оденься как хочешь')
+                    }
+                    if(result[0].current.temperature > 20){
+                        await ctx.reply('Пздц жарища! Одень что угодно.')
+                    }
                 }else{
-                    ctx.reply('В городе ' + result[0].location.name + ' температура: ' + result[0].current.temperature)
+                    ctx.reply('Ты чё уебан такого города нет??')
+                    
                 }
             })
           break
